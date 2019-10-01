@@ -33,8 +33,6 @@ export default class Zags extends Component<{}, IZagsState>{
 			 const response = await fetch(urlGet, postData);
 			 const data = await response.json();
 
-			 //let modulesList = (data.filter(x => x.moduleId === 2).forEach(x => console.log(x.param + ': ' + x.value)));
-			 //let modulesList = data.filter(x => x.moduleId === 0));
 			 this.setState({
 				 modules: data,
 				 singleModule: data.filter(x => x.moduleId === 0),
@@ -91,17 +89,8 @@ export default class Zags extends Component<{}, IZagsState>{
 		setTimeout(() => console.log(this.state.singleModule), 2000)
 	};
 
-	putNewConfigs = async () => {
-	    /*let s = this.state.modules;
-			let i = s.length;
-			while (i--) {
-			    let x = s[i].param === 'work_mode';
-			    if((x && (s[i].value !== ('AUTO' || 'CUSTOM')))) {
-                    console.log('state will clear');
-                    this.setState({modules: []})
-                }
-			}*/
-	    let {singleModule} = this.state;
+	putNewConfigs = async () => {	 
+	let {singleModule} = this.state;
 
         let urlPut = 'http://10.79.154.55:8080/'+this.state.modulePutConfigs+'/api/putConfigs';
 
@@ -128,27 +117,9 @@ export default class Zags extends Component<{}, IZagsState>{
 
 	render() {
 		const {singleModule, moduleIdValue} = this.state;
-		const mqMdmHint = (moduleIdValue === 0 ? 'Назначение модуля состоит в получении XML документов с ' +
-			'информацией об умерших из очереди сообщений от сервиса МДМ и сохранении полученных сообщений в таблицу ' +
-			'EXT_WS_MESSAGE. Работа модуля инициируется сразу при получении сообщения из очереди, после обработки ' +
-			'полученного сообщения, данный модуль может инициировать работу модуля parse, что определяется ' +
-			'конфигурационным параметром work_mode для данного модуля.' : '');
-		const parseHint = (moduleIdValue === 1 ? 'Модуль parse. Назначение модуля состоит в загрузке сохраненных ' +
-			'модулем mq-mdm сообщений, их парсинге и сохранении информации в базу данных staging area,	' +
-			'структура которой повторяет структуру обрабатываемых XML документов. Работа модуля инициируется ' +
-			'либо автоматически, путём вызова со стороны модуля mq-mdm, либо явным вызовом из интерфейса пользователя, ' +
-			'модуль будет вызываться автоматически, если параметр work_mode для модуля mq-mdm установлен в AUTO. ' +
-			'Данный модуль может инициировать работу модуля eirc-integration, что определяется конфигурационным ' +
-			'параметром work_mode для данного модуля.' : '');
-		const eircIntegrationHint = (moduleIdValue === 2 ? 'Модуль eirc-integration. Назначение модуля состоит в ' +
-			'выборке валидных данных об умерших из staging area, сохраненных туда после обработки модулем parse,  ' +
-			'для последующей отправки в окружные очереди сообщений. В процессе работы данный модуль обращается к ' +
-			'сервису ws_storage для получения идентификационных параметров умершего в БД АСУ ЕИРЦ, после чего ' +
-			'формирует XML документы для отправки в ту окружную очередь, которая соответствует полученному ' +
-			'идентификатору их сервиса ws_storage. Модуль занимается прослушиванием очереди сообщений о статусе ' +
-			'загрузки в БД АСУ ЕИРЦ. Работа модуля инициируется либо автоматически, путём вызова со стороны модуля ' +
-			'parse, либо явным вызовом из интерфейса пользователя, модуль будет вызываться автоматически, ' +
-			'если параметр work_mode для модуля parse установлен в AUTO.' : '');
+		const mqMdmHint = (moduleIdValue === 0 ? 'Назначение модуля ...' : '');
+		const parseHint = (moduleIdValue === 1 ? 'Модуль parse. Назначение модуля ...' : '');
+		const eircIntegrationHint = (moduleIdValue === 2 ? 'Модуль eirc-integration. Назначение модуля ...' : '');
 		return (
 			<ZagsWrapper>
 				<GetStatus/>
